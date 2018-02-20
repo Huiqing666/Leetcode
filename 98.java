@@ -13,6 +13,7 @@ class Solution {
         ArrayList<TreeNode> arr = new ArrayList<TreeNode>();
         int i = 0;
         TreeNode p = root;
+        //inorder traverse
         while(p != null || sta.size() > 0){
             while(p != null){
                 sta.push(p);
