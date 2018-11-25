@@ -1,23 +1,9 @@
 class Solution {
     public boolean backspaceCompare(String S, String T) {
-        StringBuilder ss = new StringBuilder();
-        StringBuilder tt = new StringBuilder();
-        for(char i : S.toCharArray()){
-            if(i == '#'){
-                if(ss.length() == 0) continue;
-                ss.deleteCharAt(ss.length() - 1);
-            }else{
-                ss.append(i);
-            }
+        for (int i = S.length() - 1, j = T.length() - 1;; i--, j--) {
+            for (int b = 0; i >= 0 && (b > 0 || S.charAt(i) == '#'); --i) b += S.charAt(i) == '#' ? 1 : -1;
+            for (int b = 0; j >= 0 && (b > 0 || T.charAt(j) == '#'); --j) b += T.charAt(j) == '#' ? 1 : -1;
+            if (i < 0 || j < 0 || S.charAt(i) != T.charAt(j)) return i == -1 && j == -1;
         }
-        for(char j : T.toCharArray()){
-            if(j == '#'){
-                if(tt.length() == 0) continue;
-                tt.deleteCharAt(tt.length() - 1);
-            }else{
-                tt.append(j);
-            }
-        }
-        return ss.toString().equals(tt.toString());
     }
 }
