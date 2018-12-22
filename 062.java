@@ -1,12 +1,18 @@
 class Solution {
     public int uniquePaths(int m, int n) {
-        int[][] mem = new int[m][n];
-        return helper(0, 0, m - 1, n - 1, mem);
-    }
-    private int helper(int i , int j, int m , int n, int[][] mem) {
-        if(i == m || j == n) return 1;
-        if(mem[i][j] > 0) return mem[i][j];
-        mem[i][j] = helper(i + 1, j, m, n, mem) + helper(i, j + 1, m, n, mem);
-        return mem[i][j];
+        int[][] dp = new int[m][n];
+        dp[0][0] = 1;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i > 0) {
+                    dp[i][j] += dp[i -1][j];
+                }
+                if (j > 0) {
+                    dp[i][j] += dp[i][j - 1];
+                }
+            }
+        }
+        return dp[m-1][n-1];
+        
     }
 }
