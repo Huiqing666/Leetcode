@@ -1,22 +1,27 @@
 class Logger {
-    private HashMap<String, Integer> lastOccur;
+    TreeMap<Integer, List<String>> map;
     /** Initialize your data structure here. */
     public Logger() {
-        this.lastOccur = new HashMap<>();
+        map = new TreeMap<>();
     }
     
     /** Returns true if the message should be printed in the given timestamp, otherwise returns false.
         If this method returns false, the message will not be printed.
         The timestamp is in seconds granularity. */
     public boolean shouldPrintMessage(int timestamp, String message) {
-        boolean should = true;
-        //System.out.println(timestamp);
-        if(lastOccur.containsKey(message) && timestamp - lastOccur.get(message) < 10) {
-            should = false;
-        }
-        if(should)lastOccur.put(message, timestamp);
-        return should;
         
+        while (!map.isEmpty() && map.firstKey() + 10 <= timestamp) {
+            int first = map.firstKey();
+            map.remove(first);
+        }
+        for (int i : map.keySet()) {
+            List<String> list = map.get(i);
+            if (list.contains(message)) return false;
+        }
+        List<String> temp = map.getOrDefault(timestamp, new ArrayList<>());
+        temp.add(message);
+        map.put(timestamp, temp);
+        return true;
     }
 }
 
